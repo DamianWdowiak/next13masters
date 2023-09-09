@@ -44,10 +44,5 @@ const productListItems = [
 ];
 
 export default function ProductsPage() {
-	return (
-		<div>
-			<h1>Products Page</h1>
-			<ProductList productItems={productListItems} />
-		</div>
-	);
+	return <ProductList productItems={productListItems} />;
 }
