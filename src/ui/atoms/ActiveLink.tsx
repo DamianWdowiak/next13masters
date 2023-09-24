@@ -22,7 +22,11 @@ export const ActiveLink = ({
 	const isActive = exact ? pathname === href : pathname.startsWith(href);
 
 	return (
-		<Link href={href} className={isActive ? activeClassName : className}>
+		<Link
+			href={href}
+			className={isActive ? activeClassName : className}
+			aria-current={isActive ? "page" : undefined}
+		>
 			{children}
 		</Link>
 	);

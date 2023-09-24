@@ -2,7 +2,7 @@ import { getProductsCount, getProductsList } from "@/api/products";
 import { Pagination } from "@/ui/organisms/Pagination";
 import { ProductList } from "@/ui/organisms/ProductList";
 
-const PER_PAGE = 4;
+const PER_PAGE = 8;
 
 export const generateStaticParams = async () => {
 	const numberOfProducts = await getProductsCount();
