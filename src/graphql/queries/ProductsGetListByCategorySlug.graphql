@@ -1,0 +1,15 @@
+query ProductsGetListByCategorySlug($pageSize: Int = 4, $page: Int = 1, $categorySlug: String!) {
+	products(
+		pagination: { pageSize: $pageSize, page: $page }
+		filters: { categories: { slug: { eq: $categorySlug } } }
+	) {
+		data {
+			...ProductListItem
+		}
+		meta {
+			pagination {
+				pageCount
+			}
+		}
+	}
+}

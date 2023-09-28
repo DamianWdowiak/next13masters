@@ -1,0 +1,12 @@
+query ProductsGetListByName($name: String) {
+	products(filters: { name: { containsi: $name } }) {
+		data {
+			...ProductListItem
+		}
+		meta {
+			pagination {
+				total
+			}
+		}
+	}
+}

@@ -1,0 +1,12 @@
+query ProductsGetList($pageSize: Int = 4, $page: Int = 1) {
+	products(pagination: { pageSize: $pageSize, page: $page }) {
+		data {
+			...ProductListItem
+		}
+		meta {
+			pagination {
+				pageCount
+			}
+		}
+	}
+}

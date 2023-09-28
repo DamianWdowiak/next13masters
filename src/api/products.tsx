@@ -1,54 +1,71 @@
-import { type ProductListItemType } from "@/ui/types";
-
-type ProductResponseItem = {
-	id: string;
-	title: string;
-	category: string;
-	price: number;
-	image: string;
-	description: string;
-};
+import { notFound } from "next/navigation";
+import {
+	ProductsGetListDocument,
+	ProductGetByIdDocument,
+	ProductsGetListByCategorySlugDocument,
+	ProductsGetListByNameDocument,
+} from "@/gql/graphql";
+import { executeGraphql } from "@/api/graphqlApi";
 
 export const getProductsList = async ({
-	per_page = 4,
-	offset = 0,
+	page = 1,
+	perPage = 4,
 }: {
-	per_page?: number;
-	offset?: number;
+	perPage?: number;
+	page?: number;
 }) => {
-	const response = await fetch(
-		`https://naszsklep-api.vercel.app/api/products?take=${per_page}&offset=${offset}`,
-	);
-	const productsResponse = (await response.json()) as ProductResponseItem[];
-	const products = productsResponse.map(productResponseItemToProductListItemType);
+	const { products } = await executeGraphql(ProductsGetListDocument, {
+		pageSize: perPage,
+		page: page,
+	});
+
+	if (!products) {
+		notFound();
+	}
 
 	return products;
 };
 
-export const getProductsCount = async () => {
-	const response = await fetch(`https://naszsklep-api.vercel.app/api/products`);
-	const productsResponse = (await response.json()) as ProductResponseItem[];
+export const getProductsListByCategorySlug = async ({
+	page = 1,
+	perPage = 4,
+	categorySlug,
+}: {
+	perPage?: number;
+	page?: number;
+	categorySlug: string;
+}) => {
+	const { products } = await executeGraphql(ProductsGetListByCategorySlugDocument, {
+		pageSize: perPage,
+		page: page,
+		categorySlug: categorySlug,
+	});
 
-	return productsResponse.length;
+	if (!products) {
+		notFound();
+	}
+
+	return products;
 };
 
-export const getProductById = async (id: ProductResponseItem["id"]) => {
-	const response = await fetch(`https://naszsklep-api.vercel.app/api/products/${id}`);
-	const productResponse = (await response.json()) as ProductResponseItem;
+export const getProductsListByName = async ({ name }: { name: string | null }) => {
+	const { products } = await executeGraphql(ProductsGetListByNameDocument, {
+		name: name,
+	});
 
-	return productResponseItemToProductListItemType(productResponse);
+	if (!products) {
+		notFound();
+	}
+
+	return products;
 };
 
-const productResponseItemToProductListItemType = (
-	product: ProductResponseItem,
-): ProductListItemType => ({
-	id: product.id,
-	name: product.title,
-	category: product.category,
-	price: product.price,
-	description: product.description,
-	coverImage: {
-		src: product.image,
-		alt: product.title,
-	},
-});
+export const getProductById = async (id: string) => {
+	const { product } = await executeGraphql(ProductGetByIdDocument, { id: id });
+
+	if (!product?.data) {
+		notFound();
+	}
+
+	return product.data;
+};

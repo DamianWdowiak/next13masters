@@ -3,7 +3,12 @@ import { type Route } from "next";
 
 import { ActiveLink } from "@/ui/atoms/ActiveLink";
 
-export const PaginationItem = ({ href, children }: { href: Route; children: ReactNode }) => {
+type PaginationItemProps = {
+	href: Route;
+	children: ReactNode;
+};
+
+export const PaginationItem = ({ href, children }: PaginationItemProps) => {
 	return (
 		<ActiveLink
 			href={href}

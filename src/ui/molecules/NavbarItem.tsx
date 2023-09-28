@@ -3,15 +3,13 @@ import { type Route } from "next";
 
 import { ActiveLink } from "@/ui/atoms/ActiveLink";
 
-export const NavbarItem = ({
-	href,
-	exact,
-	children,
-}: {
+type NavbarItemProps = {
 	href: Route;
 	exact: boolean;
 	children: ReactNode;
-}) => {
+};
+
+export const NavbarItem = ({ href, exact, children }: NavbarItemProps) => {
 	const commonClasses =
 		"border-b-2 pb-5 text-center text-lg font-medium text-slate-500 hover:border-gray-300 hover:text-slate-700";
 

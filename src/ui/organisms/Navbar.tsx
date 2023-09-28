@@ -1,6 +1,6 @@
 import { type Route } from "next";
-
 import { NavbarItem } from "@/ui/molecules/NavbarItem";
+import { SearchBox } from "@/ui/atoms/SearchBox";
 
 export const Navbar = () => {
 	const links = [
@@ -13,6 +13,21 @@ export const Navbar = () => {
 			href: "/products",
 			exact: false,
 			name: "All",
+		},
+		{
+			href: "/categories/t-shirts",
+			exact: false,
+			name: "T-Shirts",
+		},
+		{
+			href: "/categories/hoodies",
+			exact: false,
+			name: "Hoodies",
+		},
+		{
+			href: "/categories/accessories",
+			exact: false,
+			name: "Accessories",
 		},
 	];
 
@@ -27,6 +42,8 @@ export const Navbar = () => {
 					</li>
 				))}
 			</ul>
+
+			<SearchBox />
 		</nav>
 	);
 };

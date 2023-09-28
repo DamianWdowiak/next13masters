@@ -2,17 +2,32 @@ import Link from "next/link";
 
 import { ProductListItemCoverImage } from "@/ui/atoms/ProductListItemCoverImage";
 import { ProductListItemDescription } from "@/ui/atoms/ProductListItemDescription";
-import { type ProductListItemType } from "@/ui/types";
+import { type ProductListItemFragment } from "@/gql/graphql";
 
-export const ProductListItem = ({ productItem }: { productItem: ProductListItemType }) => {
+type ProductListItemProps = {
+	productItem: ProductListItemFragment;
+};
+
+export const ProductListItem = ({ productItem }: ProductListItemProps) => {
+	if (!productItem.attributes) {
+		return null;
+	}
+
+	const coverImage = productItem.attributes.images.data[0]?.attributes;
+	const coverImageSrc = `${process.env.IMAGE_URL}${coverImage?.url}`;
+	const categories = productItem.attributes.categories || null;
+	const category = categories ? categories.data[0].attributes?.name || "" : "";
+
 	return (
 		<Link href={`/product/${productItem.id}`}>
 			<article className="flex flex-col items-center space-y-4">
-				<ProductListItemCoverImage {...productItem.coverImage} />
+				{coverImage && (
+					<ProductListItemCoverImage src={coverImageSrc} alt={coverImage.alternativeText} />
+				)}
 				<ProductListItemDescription
-					name={productItem.name}
-					price={productItem.price}
-					category={productItem.category}
+					name={productItem.attributes.name}
+					price={productItem.attributes.price}
+					category={category}
 				/>
 			</article>
 		</Link>

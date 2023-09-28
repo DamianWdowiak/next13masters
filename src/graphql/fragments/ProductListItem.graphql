@@ -1,0 +1,6 @@
+fragment ProductListItem on ProductEntity {
+	id
+	attributes {
+		...ProductListItemAttributes
+	}
+}

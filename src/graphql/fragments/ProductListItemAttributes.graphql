@@ -1,0 +1,23 @@
+fragment ProductListItemAttributes on Product {
+	name
+	description
+	price
+	images {
+		data {
+			attributes {
+				url
+				alternativeText
+			}
+		}
+	}
+	categories {
+		data {
+			id
+			attributes {
+				name
+				slug
+			}
+		}
+	}
+	slug
+}
